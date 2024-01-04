@@ -1,3 +1,5 @@
+use clearscreen::clear;
+
 pub fn print_options(count: i16) {
     println!(
         "
@@ -10,4 +12,10 @@ pub fn print_options(count: i16) {
 ",
         count
     )
+}
+
+pub fn print_results<MovieType: tabled::Tabled>(results: Vec<MovieType>) {
+    clear().unwrap();
+    let table = tabled::Table::new(results).to_string();
+    print!("{table}");
 }
