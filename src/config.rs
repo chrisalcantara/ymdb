@@ -51,18 +51,15 @@ impl Config {
             create_dir_all(self.db_folder.as_path()).unwrap();
         }
     }
-    async fn verify_or_create_database_file(&self) -> Result<(), ()> {
+    async fn verify_or_create_database_file(&self) -> Result<(), &'static str> {
         match self.db_file.exists() {
             true => Ok(()),
             false => {
                 let _ = File::create(self.db_file.as_path());
                 let db = SqlitePool::connect(&self.sql_url).await.unwrap();
-
-                print!("Creating table");
                 let create_table_result = sqlx::query(CREATE_MOVIES_TABLE).execute(&db).await;
                 if create_table_result.is_err() {
-                    eprintln!("ERROR: Couldn't create movies table");
-                    return Err(());
+                    return Err("ERROR: Couldn't create movies table");
                 }
                 db.close().await;
                 Ok(())
