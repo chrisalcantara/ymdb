@@ -1,3 +1,8 @@
+mod config;
+
+use config::Config;
+
 fn main() {
-    println!("Hello, world!");
+    let config = Config::init();
+    config.verify_config();
 }
