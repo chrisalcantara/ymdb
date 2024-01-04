@@ -1,4 +1,5 @@
 mod config;
+mod edit;
 mod input;
 mod menu;
 mod queries;
@@ -7,6 +8,7 @@ mod queries;
 use std::process::ExitCode;
 
 use config::Config;
+use edit::add_movie;
 use input::get_input;
 use menu::print_options;
 
@@ -26,7 +28,7 @@ async fn entry() -> Result<(), ()> {
 
         match input_text.as_str() {
             "a" => {
-                print!("Add movie");
+                add_movie(&db).await?;
             }
             "e" => {
                 print!("Edit movie");
