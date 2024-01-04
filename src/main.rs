@@ -1,6 +1,7 @@
 mod config;
 mod input;
 mod menu;
+mod queries;
 
 use config::Config;
 use input::get_input;
@@ -9,7 +10,7 @@ use std::process::ExitCode;
 
 async fn entry() -> Result<(), ()> {
     let config = Config::init();
-    config.verify_config();
+    config.verify_config().await?;
 
     let movie_count = 100;
 
