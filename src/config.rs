@@ -36,9 +36,9 @@ impl Config {
     }
 
     pub async fn verify_config(&self) -> Result<(), ()> {
-        self.check_or_create_config_folder();
+        self.verify_or_create_config_folder();
 
-        let result = self.check_or_create_database_file().await;
+        let result = self.verify_or_create_database_file().await;
 
         match result.is_err() {
             true => Err(()),
@@ -46,12 +46,12 @@ impl Config {
         }
     }
 
-    fn check_or_create_config_folder(&self) {
+    fn verify_or_create_config_folder(&self) {
         if !self.db_folder.exists() {
             create_dir_all(self.db_folder.as_path()).unwrap();
         }
     }
-    async fn check_or_create_database_file(&self) -> Result<(), ()> {
+    async fn verify_or_create_database_file(&self) -> Result<(), ()> {
         match self.db_file.exists() {
             true => Ok(()),
             false => {
