@@ -1,12 +1,18 @@
 mod config;
 mod input;
+mod menu;
 
 use config::Config;
 use input::get_input;
+use menu::print_options;
+use std::process::ExitCode;
 
-fn main() {
+async fn entry() -> Result<(), ()> {
     let config = Config::init();
     config.verify_config();
+
+    let movie_count = 100;
+
     loop {
         let mut input_text = String::new();
         print_options(movie_count);
@@ -28,5 +34,15 @@ fn main() {
             "q" => break,
             _ => println!("Not a command"),
         }
+    }
+
+    Ok(())
+}
+
+#[async_std::main]
+async fn main() -> ExitCode {
+    match entry().await {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(()) => ExitCode::FAILURE,
     }
 }
