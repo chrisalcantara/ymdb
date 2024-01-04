@@ -10,7 +10,7 @@ use sqlx::SqlitePool;
 use std::process::ExitCode;
 
 use config::Config;
-use edit::add_movie;
+use edit::{add_movie, edit_movie};
 use input::get_input;
 use menu::print_options;
 use movie::Movie;
@@ -36,7 +36,7 @@ async fn entry() -> Result<(), ()> {
                 add_movie(&db).await?;
             }
             "e" => {
-                print!("Edit movie");
+                edit_movie(&db).await?;
             }
             "r" => {
                 movies = get_recent_movies(&db).await;

@@ -13,6 +13,8 @@ pub const RECENT_MOVIES: &str =  "SELECT title,genre,rating FROM (SELECT * FROM 
 
 pub const ALL_MOVIES: &str = "SELECT title,genre,rating FROM movies";
 
+pub const ALL_MOVIES_WITH_ID: &str = "SELECT id,title,genre,rating FROM movies";
+
 pub async fn get_movie_count(db: &Pool<Sqlite>) -> i16 {
     let result = query_movies::<MovieCount>(db, TOTAL_MOVIES).await;
 

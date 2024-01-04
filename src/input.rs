@@ -18,3 +18,18 @@ pub fn get_input(prompt: &str, input_text: &mut String) {
         .expect("Failed to read from stdin");
     trim_newline(input_text);
 }
+
+pub fn get_update_input(prompt: &str, movie_value: &str) -> Option<String> {
+    let mut entry = String::new();
+    print!("{} ({}): ", prompt, movie_value);
+    let _ = io::stdout().flush();
+    io::stdin()
+        .read_line(&mut entry)
+        .expect("Failed to read from stdin");
+    trim_newline(&mut entry);
+
+    if entry.is_empty() {
+        return None;
+    }
+    Some(entry)
+}

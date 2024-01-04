@@ -1,7 +1,7 @@
 use sqlx::FromRow;
 use tabled::Tabled;
 
-use crate::input::get_input;
+use crate::input::{get_input, get_update_input};
 
 #[derive(Clone, Default, Debug, FromRow, Tabled)]
 pub struct Movie {
@@ -60,28 +60,28 @@ impl Movie {
         }
     }
 
-    // pub fn update(&mut self) {
-    //     loop {
-    //         let mut ans = String::new();
-    //         let title = get_update_input("Enter title", &self.title);
-    //         if let Some(title) = title {
-    //             self.title = title;
-    //         }
-    //         let your_rating = get_update_input("Enter your rating", &self.rating.to_string());
-    //         if let Some(your_rating) = your_rating {
-    //             self.rating = your_rating.parse().unwrap();
-    //         }
-    //         let genre = get_update_input("Enter Genre", &self.genre);
-    //         if let Some(genre) = genre {
-    //             self.genre = genre;
-    //         }
+    pub fn update(&mut self) {
+        loop {
+            let mut ans = String::new();
+            let title = get_update_input("Enter title", &self.title);
+            if let Some(title) = title {
+                self.title = title;
+            }
+            let your_rating = get_update_input("Enter your rating", &self.rating.to_string());
+            if let Some(your_rating) = your_rating {
+                self.rating = your_rating.parse().unwrap();
+            }
+            let genre = get_update_input("Enter Genre", &self.genre);
+            if let Some(genre) = genre {
+                self.genre = genre;
+            }
 
-    //         self.view();
-    //         get_input("Look good? (y/n):", &mut ans);
+            self.view();
+            get_input("Look good? (y/n):", &mut ans);
 
-    //         if ans == "y" {
-    //             break;
-    //         }
-    //     }
-    // }
+            if ans == "y" {
+                break;
+            }
+        }
+    }
 }
