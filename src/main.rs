@@ -4,15 +4,17 @@ mod input;
 mod menu;
 mod movie;
 mod queries;
+mod view;
 
 use sqlx::SqlitePool;
 use std::process::ExitCode;
 
 use config::Config;
 use edit::add_movie;
+
 use input::get_input;
 use menu::print_options;
-use queries::get_movie_count;
+use queries::{get_all_movies, get_movie_count, get_recent_movies};
 
 async fn entry() -> Result<(), ()> {
     let config = Config::init();
@@ -35,10 +37,10 @@ async fn entry() -> Result<(), ()> {
                 print!("Edit movie");
             }
             "r" => {
-                print!("Recent movies");
+                get_recent_movies(&db).await;
             }
             "v" => {
-                print!("View all movies");
+                get_all_movies(&db).await;
             }
             "q" => break,
             _ => println!("Not a command"),
