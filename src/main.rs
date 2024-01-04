@@ -42,6 +42,9 @@ async fn entry() -> Result<(), ()> {
             "v" => {
                 get_all_movies(&db).await;
             }
+            "x" => {
+                println!("Export data")
+            }
             "q" => break,
             _ => println!("Not a command"),
         }
