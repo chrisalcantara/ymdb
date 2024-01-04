@@ -26,7 +26,8 @@ impl Config {
         let db_folder = get_absolute_path(".config/ymdb");
         let db_file = get_absolute_path(".config/ymdb/ymdb.db");
 
-        sql_url.push_str(db_file.to_str().unwrap());
+        let db_file_path_str = db_file.to_str().unwrap();
+        sql_url.push_str(db_file_path_str);
 
         Config {
             db_folder,
