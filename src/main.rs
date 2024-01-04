@@ -11,9 +11,9 @@ use std::process::ExitCode;
 
 use config::Config;
 use edit::add_movie;
-
 use input::get_input;
 use menu::print_options;
+use movie::Movie;
 use queries::{get_all_movies, get_movie_count, get_recent_movies};
 
 async fn entry() -> Result<(), ()> {
@@ -22,6 +22,8 @@ async fn entry() -> Result<(), ()> {
 
     // initialize db connection
     let db = SqlitePool::connect(&config.sql_url).await.unwrap();
+
+    let mut movies: Vec<Movie> = [].to_vec();
 
     loop {
         let mut input_text = String::new();
@@ -37,13 +39,16 @@ async fn entry() -> Result<(), ()> {
                 print!("Edit movie");
             }
             "r" => {
-                get_recent_movies(&db).await;
+                movies = get_recent_movies(&db).await;
             }
             "v" => {
-                get_all_movies(&db).await;
+                movies = get_all_movies(&db).await;
             }
             "x" => {
-                println!("Export data")
+                // save result to Vec<Movie>
+                // then convert that to csv
+                println!("Export data");
+                println!("{:#?}", movies);
             }
             "q" => break,
             _ => println!("Not a command"),

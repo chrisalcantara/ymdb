@@ -23,12 +23,16 @@ pub async fn get_movie_count(db: &Pool<Sqlite>) -> i16 {
         .count
 }
 
-pub async fn get_recent_movies(db: &Pool<Sqlite>) {
-    let movies = query_movies::<Movie>(db, RECENT_MOVIES).await;
-    print_results::<Movie>(movies.unwrap())
+pub async fn get_recent_movies(db: &Pool<Sqlite>) -> Vec<Movie> {
+    let results = query_movies::<Movie>(db, RECENT_MOVIES).await;
+    let movies = results.unwrap();
+    print_results::<Movie>(&movies.clone());
+    movies
 }
 
-pub async fn get_all_movies(db: &Pool<Sqlite>) {
-    let movies = query_movies::<Movie>(db, ALL_MOVIES).await;
-    print_results::<Movie>(movies.unwrap())
+pub async fn get_all_movies(db: &Pool<Sqlite>) -> Vec<Movie> {
+    let results = query_movies::<Movie>(db, ALL_MOVIES).await;
+    let movies = results.unwrap();
+    print_results::<Movie>(&movies.clone());
+    movies
 }

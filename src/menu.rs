@@ -14,7 +14,7 @@ pub fn print_options(count: i16) {
     )
 }
 
-pub fn print_results<MovieType: tabled::Tabled>(results: Vec<MovieType>) {
+pub fn print_results<MovieType: tabled::Tabled>(results: &Vec<MovieType>) {
     clear().unwrap();
     let table = tabled::Table::new(results).to_string();
     print!("{table}");
