@@ -52,6 +52,7 @@ impl Config {
             create_dir_all(self.db_folder.as_path()).unwrap();
         }
     }
+
     async fn verify_or_create_database_file(&self) -> Result<(), &'static str> {
         match self.db_file.exists() {
             true => Ok(()),
