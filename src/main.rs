@@ -2,27 +2,28 @@ mod config;
 mod edit;
 mod input;
 mod menu;
+mod movie;
 mod queries;
 
-// use sqlx::SqlitePool;
+use sqlx::SqlitePool;
 use std::process::ExitCode;
 
 use config::Config;
 use edit::add_movie;
 use input::get_input;
 use menu::print_options;
+use queries::get_movie_count;
 
 async fn entry() -> Result<(), ()> {
     let config = Config::init();
     config.verify_config().await?;
 
-    let movie_count = 100;
-
     // initialize db connection
-    // let db = SqlitePool::connect(&config.sql_url).await.unwrap();
+    let db = SqlitePool::connect(&config.sql_url).await.unwrap();
 
     loop {
         let mut input_text = String::new();
+        let movie_count = get_movie_count(&db).await;
         print_options(movie_count);
         get_input(">", &mut input_text);
 
@@ -43,7 +44,7 @@ async fn entry() -> Result<(), ()> {
             _ => println!("Not a command"),
         }
     }
-
+    db.close().await;
     Ok(())
 }
 
