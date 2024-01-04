@@ -3,16 +3,21 @@ mod input;
 mod menu;
 mod queries;
 
+// use sqlx::SqlitePool;
+use std::process::ExitCode;
+
 use config::Config;
 use input::get_input;
 use menu::print_options;
-use std::process::ExitCode;
 
 async fn entry() -> Result<(), ()> {
     let config = Config::init();
     config.verify_config().await?;
 
     let movie_count = 100;
+
+    // initialize db connection
+    // let db = SqlitePool::connect(&config.sql_url).await.unwrap();
 
     loop {
         let mut input_text = String::new();
