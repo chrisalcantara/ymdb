@@ -1,9 +1,10 @@
+use serde::Serialize;
 use sqlx::FromRow;
 use tabled::Tabled;
 
 use crate::input::{get_input, get_update_input};
 
-#[derive(Clone, Default, Debug, FromRow, Tabled)]
+#[derive(Clone, Default, Debug, FromRow, Tabled, Serialize)]
 pub struct Movie {
     pub title: String,
     pub genre: String,
