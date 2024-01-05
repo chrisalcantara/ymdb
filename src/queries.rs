@@ -32,9 +32,15 @@ pub async fn get_recent_movies(db: &Pool<Sqlite>) -> Vec<Movie> {
     movies
 }
 
-pub async fn get_all_movies(db: &Pool<Sqlite>) -> Vec<Movie> {
+pub async fn get_all_movies(db: &Pool<Sqlite>, show: bool) -> Vec<Movie> {
     let results = query_movies::<Movie>(db, ALL_MOVIES).await;
     let movies = results.unwrap();
-    print_results::<Movie>(&movies.clone());
-    movies
+
+    match show {
+        true => {
+            print_results::<Movie>(&movies.clone());
+            movies
+        }
+        false => movies,
+    }
 }
