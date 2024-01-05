@@ -1,5 +1,6 @@
 mod config;
 mod edit;
+mod export;
 mod input;
 mod menu;
 mod movie;
@@ -42,13 +43,14 @@ async fn entry() -> Result<(), ()> {
                 movies = get_recent_movies(&db).await;
             }
             "v" => {
-                movies = get_all_movies(&db).await;
+                movies = get_all_movies(&db, true).await;
             }
             "x" => {
-                // save result to Vec<Movie>
-                // then convert that to csv
-                println!("Export data");
-                println!("{:#?}", movies);
+                movies = match movies.is_empty() {
+                    true => get_all_movies(&db, false).await,
+                    _ => movies,
+                };
+                export::export_data(&movies);
             }
             "q" => break,
             _ => println!("Not a command"),

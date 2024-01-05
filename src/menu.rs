@@ -19,3 +19,15 @@ pub fn print_results<MovieType: tabled::Tabled>(results: &Vec<MovieType>) {
     let table = tabled::Table::new(results).to_string();
     print!("{table}");
 }
+
+pub fn print_export_options() {
+    println!(
+        "
++--------------------------------------+
+          Choose your output
++--------------------------------------+
+[c] csv  [j] json
+[t] tsv  [x] txt
+"
+    )
+}
