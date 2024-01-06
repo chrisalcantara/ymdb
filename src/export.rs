@@ -1,6 +1,7 @@
 use crate::{input::get_input, menu::print_export_options, movie::Movie};
 use clearscreen::clear;
 use csv::Writer;
+use serde_json::to_string;
 use std::fs::write;
 
 fn get_file_name(ext: &str) -> String {
@@ -15,8 +16,15 @@ fn get_file_name(ext: &str) -> String {
     }
 }
 
+fn export_json(movies: &Vec<Movie>) {
+    let file_name = get_file_name("json");
+    let data = to_string(movies).expect("ERROR: Couldn't serialize to JSON.");
+    write(&file_name, data).expect("ERROR: Couldn't write file.");
+    println!("File saved as: {}", file_name);
+}
+
 fn export_csv(movies: &Vec<Movie>) {
-    let file_name = get_file_name(".csv");
+    let file_name = get_file_name("csv");
     let mut writer = Writer::from_writer(vec![]);
 
     for movie in movies {
@@ -45,6 +53,7 @@ pub fn export_data(movies: &Vec<Movie>) {
             }
             "j" => {
                 println!("export json");
+                export_json(movies);
                 break;
             }
             "t" => {
