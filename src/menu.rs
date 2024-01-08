@@ -26,8 +26,8 @@ pub fn print_export_options() {
 +--------------------------------------+
           Choose your output
 +--------------------------------------+
-[c] csv  [j] json
-[t] tsv  [x] txt
+[c] csv  [j] json  [t] txt
+[q] Quit
 "
     )
 }
