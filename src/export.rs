@@ -3,6 +3,7 @@ use clearscreen::clear;
 use csv::Writer;
 use serde_json::to_string;
 use std::fs::write;
+use tabled::Table;
 
 fn get_file_name(ext: &str) -> String {
     let mut file_name_input = String::new();
@@ -38,6 +39,13 @@ fn export_csv(movies: &Vec<Movie>) {
     println!("File saved as: {}", file_name);
 }
 
+fn export_text(movies: &Vec<Movie>) {
+    let file_name = get_file_name("txt");
+    let table = Table::new(movies).to_string();
+    write(&file_name, table).expect("ERROR: Couldn't write file.");
+    println!("File saved as: {}", file_name);
+}
+
 pub fn export_data(movies: &Vec<Movie>) {
     clear().expect("ERROR: Couldn't clear screen.");
     print_export_options();
@@ -47,22 +55,15 @@ pub fn export_data(movies: &Vec<Movie>) {
         get_input(">", &mut input_text);
         match input_text.as_str() {
             "c" => {
-                println!("export csv");
                 export_csv(movies);
                 break;
             }
             "j" => {
-                println!("export json");
                 export_json(movies);
                 break;
             }
             "t" => {
-                println!("export tsv");
-                break;
-            }
-
-            "x" => {
-                println!("export txt");
+                export_text(movies);
                 break;
             }
             "q" => break,
