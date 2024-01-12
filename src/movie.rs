@@ -32,29 +32,31 @@ impl Movie {
     pub fn view(&self) {
         clearscreen::clear().unwrap();
         println!("Title: {}", self.title);
-        println!("Your rating: {}", self.rating);
         println!("Genre: {}", self.genre);
+        println!("Rating: {}", self.rating);
     }
 
     pub fn add_entry(&mut self) {
         loop {
-            let mut title = String::new();
-            let mut genre = String::new();
-            let mut rating = String::new();
+            self.title = get_input("Enter title:");
+            self.genre = get_input("Enter genre:");
 
-            let mut ans = String::new();
+            // ensure rating is a number
+            loop {
+                let rating = get_input("Enter rating:");
+                let parsed_rating = rating.parse::<i8>();
 
-            get_input("Enter title:", &mut title);
-            get_input("Enter your rating:", &mut rating);
-            get_input("Enter genre:", &mut genre);
-
-            self.title = title;
-            self.rating = rating.parse::<i8>().unwrap();
-            self.genre = genre;
+                if parsed_rating.is_ok() {
+                    let r = parsed_rating.unwrap();
+                    self.rating = r;
+                    break;
+                }
+                println!("Rating must be number");
+            }
 
             self.view();
-            get_input("Look good? (y/n): ", &mut ans);
 
+            let ans = get_input("Look good? (y/n):");
             if ans == "y" {
                 break;
             }
@@ -63,7 +65,6 @@ impl Movie {
 
     pub fn update(&mut self) {
         loop {
-            let mut ans = String::new();
             let title = get_update_input("Enter title", &self.title);
             if let Some(title) = title {
                 self.title = title;
@@ -78,7 +79,7 @@ impl Movie {
             }
 
             self.view();
-            get_input("Look good? (y/n):", &mut ans);
+            let ans = get_input("Look good? (y/n):");
 
             if ans == "y" {
                 break;
