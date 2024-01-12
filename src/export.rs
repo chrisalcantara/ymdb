@@ -6,9 +6,8 @@ use std::fs::write;
 use tabled::Table;
 
 fn get_file_name(ext: &str) -> String {
-    let mut file_name_input = String::new();
     let f = format!("Enter file name (default: data.{})", ext);
-    get_input(&f, &mut file_name_input);
+    let file_name_input = get_input(&f);
     match file_name_input.as_str() {
         "" => {
             format!("./data.{}", ext)
@@ -51,8 +50,8 @@ pub fn export_data(movies: &Vec<Movie>) {
     print_export_options();
 
     loop {
-        let mut input_text = String::new();
-        get_input(">", &mut input_text);
+        let input_text = get_input(">");
+
         match input_text.as_str() {
             "c" => {
                 export_csv(movies);

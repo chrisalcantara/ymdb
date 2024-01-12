@@ -27,10 +27,10 @@ async fn entry() -> Result<(), ()> {
     let mut movies: Vec<Movie> = [].to_vec();
 
     loop {
-        let mut input_text = String::new();
         let movie_count = get_movie_count(&db).await;
         print_options(movie_count);
-        get_input(">", &mut input_text);
+
+        let input_text = get_input(">");
 
         match input_text.as_str() {
             "a" => {

@@ -10,13 +10,15 @@ fn trim_newline(s: &mut String) {
     }
 }
 
-pub fn get_input(prompt: &str, input_text: &mut String) {
+pub fn get_input(prompt: &str) -> String {
+    let mut input_text = String::new();
     print!("{} ", prompt);
     let _ = io::stdout().flush();
     io::stdin()
-        .read_line(input_text)
+        .read_line(&mut input_text)
         .expect("Failed to read from stdin");
-    trim_newline(input_text);
+    trim_newline(&mut input_text);
+    input_text
 }
 
 pub fn get_update_input(prompt: &str, movie_value: &str) -> Option<String> {
