@@ -36,8 +36,12 @@ async fn entry() -> Result<(), ()> {
             "a" => {
                 add_movie(&db).await?;
             }
+            "d" => {
+                edit_movie(&db, "delete").await?;
+                println!("{:#?}", "DELETED");
+            }
             "e" => {
-                edit_movie(&db).await?;
+                edit_movie(&db, "edit").await?;
             }
             "r" => {
                 movies = get_recent_movies(&db).await;

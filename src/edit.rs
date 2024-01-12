@@ -45,14 +45,22 @@ pub async fn edit_movie(db: &Pool<Sqlite>) -> Result<(), ()> {
     let r_no_id = query_movies::<Movie>(db, query_for_id.as_str()).await;
 
     let m = &mut r_no_id.unwrap()[0];
-    m.update();
 
-    let update_query = format!(
-        "UPDATE movies SET title='{}', genre='{}', rating='{}' WHERE id='{}'",
-        m.title, m.genre, m.rating, id
-    );
-
-    let _ = query_movies::<Movie>(db, update_query.as_str()).await;
-
-    Ok(())
+    match action {
+        "edit" => {
+            m.update();
+            let update_query = format!(
+                "UPDATE movies SET title='{}', genre='{}', rating='{}' WHERE id='{}'",
+                m.title, m.genre, m.rating, id
+            );
+            let _ = query_movies::<Movie>(db, update_query.as_str()).await;
+            Ok(())
+        }
+        "delete" => {
+            let delete_query = format!("DELETE FROM  movies WHERE id='{}'", id);
+            let _ = query_movies::<Movie>(db, delete_query.as_str()).await;
+            Ok(())
+        }
+        _ => Ok(()),
+    }
 }
